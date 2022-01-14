@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./style.css";
+import { Rate } from "antd";
 
 const mapFilter = {
   key1: "men's clothing",
@@ -89,32 +90,73 @@ function List() {
 
   return (
     <div className="List">
-      {loading && <div>Loading...</div>}
+      {loading && (
+        <div class="loadingio-spinner-spinner-anpj18jrds5">
+          <div class="ldio-lsxdl9mydei">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      )}
       {!loading && (
         <div className="p-2">
-          <h2>Doing stuff with data</h2>
           <div className="row p-2">
-            <div className="col-3">
-              <select
-                class="form-select"
-                aria-label="Default select example"
-                onChange={(e) => setSort(e.target.value)}
-              >
-                <option>Tri Par</option>
-                <option value="price">Prix</option>
-                <option value="rating">Rating</option>
-              </select>
-            </div>
-            <div className="col-3">
+            <div className="col-6">
               <div className="dropdown">
                 <button
-                  className="btn btn-secondary dropdown-toggle"
+                  className="btn btn dropdown-toggle"
                   type="button"
                   id="dropdownMenuButton1"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Dropdown button
+                  Order By
+                </button>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenuButton1"
+                >
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => setSort("price")}
+                    >
+                      Price
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => setSort("rating")}
+                    >
+                      Rating
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="col-6">
+              <div className="dropdown1">
+                <button
+                  className="btn btn dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Category
                 </button>
                 <ul
                   className="dropdown-menu"
@@ -156,36 +198,52 @@ function List() {
               </div>
             </div>
           </div>
-          <table className="table table-bordered">
-            <thead>
+          <table className="table">
+            <thead className="thead-primary">
               <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Price</th>
-                <th scope="col">Description</th>
-                <th scope="col">Category</th>
-                <th scope="col">Image</th>
-                <th scope="col">Rating</th>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Rating</th>
               </tr>
             </thead>
-            {pagedata.map((item) => (
-              <tbody>
-                <tr key={item.id}>
-                  {/* <th scope="row">1</th> */}
-                  <td>{item.title}</td>
-                  <td>{item.price}</td>
-                  <td>{item.description}</td>
-                  <td>{item.category}</td>
+
+            <tbody>
+              {pagedata.map((item) => (
+                <tr className="alert" role="alert">
                   <td>
-                    {" "}
-                    <img src={item.image} alt="img" className="img-produit" />
+                    <img
+                      src={item.image}
+                      alt="img"
+                      className={
+                        item.category === "men's clothing" ||
+                        item.category === "jewelery"
+                          ? "img"
+                          : "img1"
+                      }
+                    />
                   </td>
+                  <td>
+                    <div className="email">
+                      <span>
+                        <b>Title:</b> {item.title}{" "}
+                      </span>
+                      <span>
+                        <b>Description:</b> {item.description}
+                      </span>
+                    </div>
+                  </td>
+                  <td>{item.price}$</td>
+                  <td className="category">{item.category}</td>
                   <td>{item.rating.rate}</td>
                 </tr>
-              </tbody>
-            ))}
+              ))}
+            </tbody>
           </table>
+
           <nav aria-label="Page navigation example">
-            <ul className="pagination justify-content-end">
+            <ul className="pagination justify-content-center">
               {page > 1 && (
                 <li className="page-item">
                   <a className="page-link" onClick={() => setPage(page - 1)}>
@@ -196,7 +254,11 @@ function List() {
               {Array(pages)
                 .fill(1)
                 .map((_, i) => (
-                  <li className={page === (i+1) ? 'page-item active' : 'page-item'}>
+                  <li
+                    className={
+                      page === i + 1 ? "page-item active" : "page-item"
+                    }
+                  >
                     <a className="page-link" onClick={() => setPage(i + 1)}>
                       {i + 1}
                     </a>

@@ -1,15 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./style.css";
-import { Rate } from "antd";
 
+/** @type {Object} */
 const mapFilter = {
   key1: "men's clothing",
   key2: "jewelery",
   key3: "electronics",
   key4: "women's clothing",
 };
-
+/**
+ * laoding page.
+ * @param {string} pageindex - The index of the page in which we will display our data.
+ * @param {Array} data - array of data.
+ * @return {Array} - the data of each page
+ */
 function loadpage(pageindex, data) {
   const limit = Math.min(data.length, 5);
   const page = pageindex || 1;
@@ -42,6 +47,9 @@ function List() {
 
   const [sortValue, setSort] = useState(null);
 
+  /**
+* @see {@link useEffect([data],[page],[filterValue],[sortValue])}
+**/
   useEffect(() => {
     let datas = data;
     if (datas.length > 0) {
@@ -55,6 +63,9 @@ function List() {
         datas = datas.sort((item, item1) => {
           if (sortValue === "rating") {
             return item.rating.rate - item1.rating.rate;
+          }
+          else if (sortValue === "all") {
+            return item.id - item1.id;
           }
 
           return item[sortValue] - item1[sortValue];
@@ -128,6 +139,14 @@ function List() {
                   className="dropdown-menu"
                   aria-labelledby="dropdownMenuButton1"
                 >
+                <li>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => setSort("all")}
+                    >
+                      All
+                    </a>
+                  </li>
                   <li>
                     <a
                       className="dropdown-item"
